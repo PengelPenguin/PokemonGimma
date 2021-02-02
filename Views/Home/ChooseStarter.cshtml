@@ -1,0 +1,29 @@
+﻿@model List<PokemonGame.Pokemon.Pokemon>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Choose starter pokemon</h1>
+    <div class="row">
+
+        @foreach (PokemonGame.Pokemon.Pokemon pokemon in Model)
+        {
+        <div class="col-lg-4" style="background-color:orangered">
+            <p>@pokemon.Name ID: @pokemon.Id</p>
+            @foreach (var ability in pokemon.Abilities)
+            {
+                <p>Ability: @ability.AbilityAbility.Name</p>
+            }
+
+            @foreach (var stat in pokemon.Stats)
+            {
+                <p>@stat.StatStat.Name : @stat.BaseStat</p>
+
+            }
+            @Html.ActionLink("Choose Starter", "GameScreen", "Home", new { id = pokemon.Id }, new { @class = "btn btn-primary" })
+        </div>
+        }
+
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    </div>
