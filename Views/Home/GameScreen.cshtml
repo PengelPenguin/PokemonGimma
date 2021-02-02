@@ -1,0 +1,35 @@
+﻿@model PokemonGame.Pokemon.Pokemon
+@{
+    ViewData["Title"] = "Home Page";
+    string imageSrc = "https://pokeres.bastionbot.org/images/pokemon/" + Model.Id + ".png";
+    string randomImageSrc = "https://pokeres.bastionbot.org/images/pokemon/" + Model.RandomPokemon.Id + ".png";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome: Trainer</h1>
+    <p>Choose a starter pokemon</p>
+
+    <p>@Model.Name</p>
+    <img srcset=@imageSrc />
+    @foreach (var ability in Model.Abilities)
+    {
+        <p>Ability: @ability.AbilityAbility.Name</p>
+    }
+
+    @foreach (var stat in Model.Stats)
+    {
+        <p>@stat.StatStat.Name : @stat.BaseStat</p>
+
+    }
+    
+
+    <h1>Your Random Pokemon</h1>
+    <p>@Model.RandomPokemon.Name</p>
+    <img srcset=@randomImageSrc />
+
+
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
