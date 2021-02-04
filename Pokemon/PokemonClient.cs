@@ -8,93 +8,134 @@ namespace PokemonGame.Pokemon
 {
     public class PokemonClient
     {
-        static HttpClient client;
-        static Pokemon Pmon = new Pokemon();
-        public PokemonClient()
+        public static async Task<Pokemon> GetPokemonAsync(int id)
         {
-            client = new HttpClient();
-            client.BaseAddress = new Uri("https://pokeapi.co/api/v2/");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-        }
-        public static async Task<Pokemon> GetPokemonAsync(string path)
-        {
-            var pokemon = "";
-
-            HttpResponseMessage response = await client.GetAsync(path);
-            if (response.IsSuccessStatusCode)
+            using (var client = new HttpClient())
             {
-                pokemon = await response.Content.ReadAsStringAsync();
-                var yourObject = JsonConvert.DeserializeObject<Pokemon>(pokemon);
-                Pmon = Pokemon.FromJson(pokemon);
-                Console.WriteLine(Pmon.Name + " " + Pmon.Moves[0].MoveMove.Name);
-                return yourObject;
+                //TODO: throw exception?
+                client.BaseAddress = new Uri("https://pokeapi.co/api/v2/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var pokemon = "";
+
+                HttpResponseMessage response = await client.GetAsync("pokemon/" + id.ToString());
+                if (response.IsSuccessStatusCode)
+                {
+                    pokemon = await response.Content.ReadAsStringAsync();
+                    var yourpokemon = JsonConvert.DeserializeObject<Pokemon>(pokemon);
+                    return yourpokemon;
+                }
+
             }
             return null;
+        }
+
+        public static async Task GetImageForPokemon(Pokemon pokemon)
+        {
+            using (var client = new HttpClient())
+            {
+                //do something with http client //9.png
+                client.BaseAddress = new Uri("https://pokeres.bastionbot.org/images/pokemon/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var img = "";
+
+                HttpResponseMessage response = await client.GetAsync(pokemon.Id.ToString() + ".png");
+                if (response.IsSuccessStatusCode)
+                {
+                    img = await response.Content.ReadAsStringAsync();
+                    pokemon.Image = img;
+                }
+
+            }
         }
 
         //dirty parameter
-        public static async Task GetRandomPokemonAsync(int id,Pokemon Trainer)
+        public static async Task GetRandomPokemonAsync(Pokemon Trainer)
         {
             var pokemon = "";
 
-            HttpResponseMessage response = await client.GetAsync("pokemon/"+id.ToString());
-            if (response.IsSuccessStatusCode)
+            int randomIdForPokemon;
+            Random rand = new Random();
+            randomIdForPokemon = rand.Next(1, 400);
+
+            using (var client = new HttpClient())
             {
-                pokemon = await response.Content.ReadAsStringAsync();
-                var yourObject = JsonConvert.DeserializeObject<Pokemon>(pokemon);
-                Trainer.RandomPokemon = yourObject;
+                //TODO: throw exception?
+                client.BaseAddress = new Uri("https://pokeapi.co/api/v2/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+
+                HttpResponseMessage response = await client.GetAsync("pokemon/" + randomIdForPokemon.ToString());
+                if (response.IsSuccessStatusCode)
+                {
+                    pokemon = await response.Content.ReadAsStringAsync();
+                    var yourObject = JsonConvert.DeserializeObject<Pokemon>(pokemon);
+                    Trainer.RandomPokemon = yourObject;
+                }
+
             }
-            
         }
+
+        public static async Task FindEnemyPokemon(Pokemon Trainer)
+        {
+            var pokemon = "";
+
+            int randomIdForPokemon;
+            Random rand = new Random();
+            randomIdForPokemon = rand.Next(1, 400);
+
+            using (var client = new HttpClient())
+            {
+                //TODO: throw exception?
+                client.BaseAddress = new Uri("https://pokeapi.co/api/v2/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+
+                HttpResponseMessage response = await client.GetAsync("pokemon/" + randomIdForPokemon.ToString());
+                if (response.IsSuccessStatusCode)
+                {
+                    pokemon = await response.Content.ReadAsStringAsync();
+                    var yourObject = JsonConvert.DeserializeObject<Pokemon>(pokemon);
+                    Trainer.EnemyPokemon = yourObject;
+                }
+
+            }
+        }
+
+
 
         public static async Task<Pokemon> GetStarterPokemon(string path)
         {
-            var pokemon = "";
-
-            HttpResponseMessage response = await client.GetAsync(path);
-            if (response.IsSuccessStatusCode)
+            using (var client = new HttpClient())
             {
-                pokemon = await response.Content.ReadAsStringAsync();
-                var yourObject = JsonConvert.DeserializeObject<Pokemon>(pokemon);
-                return yourObject;
+                //TODO: throw exception?
+                client.BaseAddress = new Uri("https://pokeapi.co/api/v2/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var pokemon = "";
+
+                HttpResponseMessage response = await client.GetAsync(path);
+                if (response.IsSuccessStatusCode)
+                {
+                    pokemon = await response.Content.ReadAsStringAsync();
+                    var yourpokemon = JsonConvert.DeserializeObject<Pokemon>(pokemon);
+                    return yourpokemon;
+                }
+
             }
             return null;
         }
-
-        public static async Task<Ability> GetAbilitiesAsync(string path, int id)
-        {
-            Ability abilities = null;
-
-            HttpResponseMessage response = await client.GetAsync(path + "/" + id);
-            if (response.IsSuccessStatusCode)
-            {
-                abilities = await response.Content.ReadAsAsync<Ability>();
-            }
-            return abilities;
-        }
-
-        public static async Task RunAsync()
-        {
-            client.BaseAddress = new Uri("https://pokeapi.co/api/v2/");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
-
-            //await GetAbilitiesAsync("ability", 2);
-            await GetPokemonAsync("pokemon/ditto");
-        }
-
-        //public static void Main()
-        //{
-        //    Console.WriteLine("Hello World!");
-
-        //    RunAsync().GetAwaiter().GetResult();
-
-        //    Console.ReadKey();
-        //}
     }
 }
 

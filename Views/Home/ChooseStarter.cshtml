@@ -11,9 +11,9 @@
         {
         <div class="col-lg-4" style="background-color:orangered">
             <p>@pokemon.Name ID: @pokemon.Id</p>
-            @foreach (var ability in pokemon.Abilities)
+            @for (int i = 0; i < 3; i++)
             {
-                <p>Ability: @ability.AbilityAbility.Name</p>
+                <button> @pokemon.Moves[i].MoveMove.Name</button>
             }
 
             @foreach (var stat in pokemon.Stats)
@@ -24,7 +24,5 @@
             @Html.ActionLink("Choose Starter", "GameScreen", "Home", new { id = pokemon.Id }, new { @class = "btn btn-primary" })
         </div>
         }
-
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     </div>
 </div>

@@ -11,9 +11,9 @@
 
     <p>@Model.Name</p>
     <img srcset=@imageSrc />
-    @foreach (var ability in Model.Abilities)
+    @for (int i = 0; i < 3; i++)
     {
-        <p>Ability: @ability.AbilityAbility.Name</p>
+        <p>Ability: @Model.Moves[i].MoveMove.Name</p>
     }
 
     @foreach (var stat in Model.Stats)
@@ -21,15 +21,9 @@
         <p>@stat.StatStat.Name : @stat.BaseStat</p>
 
     }
-    
+    @Html.ActionLink("Train " + Model.Name, "TrainScreen", "Home", new { id = Model.Id }, new { @class = "btn btn-primary" });
 
     <h1>Your Random Pokemon</h1>
     <p>@Model.RandomPokemon.Name</p>
     <img srcset=@randomImageSrc />
-
-
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
