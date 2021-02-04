@@ -10,6 +10,8 @@ namespace PokemonGame.Pokemon
 {
     public partial class Pokemon
     {
+        public int health { get; set; }
+        public Pokemon EnemyPokemon { get; set; }
         public Pokemon RandomPokemon { get; set; }
         public string Image { get; set; }
 

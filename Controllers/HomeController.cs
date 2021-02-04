@@ -23,12 +23,6 @@ namespace PokemonGame.Controllers
             _logger = logger;
         }
 
-        public async Task<IActionResult> Index1()
-        {
-            Pokemon.Pokemon pokemon = await PokemonClient.GetPokemonAsync("pokemon/mankey");
-            return View(pokemon);
-        }
-
         public async Task<IActionResult> ChooseStarter()
         {
             //Pokemon.Pokemon pokemon = await PokemonClient.GetPokemonAsync("pokemon/mankey");
@@ -43,43 +37,19 @@ namespace PokemonGame.Controllers
             return View(pokemons);
         }
 
+        public async Task<IActionResult> TrainScreen(int id)
+        {
+            Pokemon.Pokemon pokemon = await PokemonClient.GetPokemonAsync(id);
+            await PokemonClient.FindEnemyPokemon(pokemon);
+
+            return View(pokemon);
+        }
+
         public async Task<IActionResult> GameScreen(int id)
         {
-            using (var client = new HttpClient())
-            {
-                //do something with http client
-                client.BaseAddress = new Uri("https://pokeapi.co/api/v2/");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new MediaTypeWithQualityHeaderValue("application/json"));
+            Pokemon.Pokemon pokemon = await PokemonClient.GetPokemonAsync(id);
 
-            }
-            Pokemon.Pokemon pokemon = await PokemonClient.GetPokemonAsync("pokemon/" + id.ToString());
-
-            int randomIdForPokemon;
-            Random rand = new Random();
-            randomIdForPokemon = rand.Next(1, 400);
-
-            using (var client = new HttpClient())
-            {
-                //do something with http client //9.png
-                client.BaseAddress = new Uri("https://pokeres.bastionbot.org/images/pokemon/");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new MediaTypeWithQualityHeaderValue("application/json"));
-
-                var img = "";
-
-                HttpResponseMessage response = await client.GetAsync(id.ToString()+".png");
-                if (response.IsSuccessStatusCode)
-                {
-                    img = await response.Content.ReadAsStringAsync();
-                    pokemon.Image = img;
-                }
-
-            }
-
-            await PokemonClient.GetRandomPokemonAsync(randomIdForPokemon, pokemon);
+            await PokemonClient.GetRandomPokemonAsync(pokemon);
             return View(pokemon);
         }
 
