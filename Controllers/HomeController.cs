@@ -48,8 +48,9 @@ namespace PokemonGame.Controllers
         public async Task<IActionResult> GameScreen(int id)
         {
             Pokemon.Pokemon pokemon = await PokemonClient.GetPokemonAsync(id);
-            
+
             await PokemonClient.GetRandomPokemonAsync(pokemon);
+            await PokemonClient.InitMoves(pokemon);
             return View(pokemon);
         }
 
