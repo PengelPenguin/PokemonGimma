@@ -41,14 +41,14 @@ namespace PokemonGame.Controllers
         {
             Pokemon.Pokemon pokemon = await PokemonClient.GetPokemonAsync(id);
             await PokemonClient.FindEnemyPokemon(pokemon);
-
+            await PokemonClient.InitMoves(pokemon);
             return View(pokemon);
         }
 
         public async Task<IActionResult> GameScreen(int id)
         {
             Pokemon.Pokemon pokemon = await PokemonClient.GetPokemonAsync(id);
-
+            
             await PokemonClient.GetRandomPokemonAsync(pokemon);
             return View(pokemon);
         }

@@ -10,10 +10,10 @@
     <p>Choose a starter pokemon</p>
 
     <p>@Model.Name</p>
-    <img srcset=@imageSrc />
+    <img class="img-fluid" srcset=@imageSrc />
     @for (int i = 0; i < 3; i++)
     {
-        <p>Ability: @Model.Moves[i].MoveMove.Name</p>
+        <p>Ability: @Model.Moves[i].Name</p>
     }
 
     @foreach (var stat in Model.Stats)
@@ -25,5 +25,6 @@
 
     <h1>Your Random Pokemon</h1>
     <p>@Model.RandomPokemon.Name</p>
-    <img srcset=@randomImageSrc />
+    <img class="img-fluid" srcset=@randomImageSrc />
+    
 </div>

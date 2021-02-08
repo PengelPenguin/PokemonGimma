@@ -7,21 +7,26 @@
 }
 
 <div class="container">
+
     <div class="row">
         <div class="col-lg-6">
-            <p>@Model.Name</p>
-            <img srcset=@imageSrc />
-            @for (int i = 0; i < 3; i++)
+            <p id="namePlayer1">@Model.Name</p>
+            <h1 id="healthPlayer1">@Model.health.ToString()</h1>
+            <img class="img-fluid" srcset=@imageSrc />
+            @for (int i = 1; i < 5; i++)
             {
-                <button> @Model.Moves[i].MoveMove.Name</button>
+                <button onclick="CalculateDamageStep(@i)"> @Model.Moves[i].Name</button>
+                <p id=@i.ToString()>@Model.Moves[i].Power</p>
             }
         </div>
         <div class="col-lg-6">
-            <p>@Model.EnemyPokemon.Name</p>
-            <img srcset=@randomImageSrc />
-            @for (int i = 0; i < 3; i++)
+            <p id="namePlayer2">@Model.EnemyPokemon.Name</p>
+            <h1 id="healthPlayer2">@Model.EnemyPokemon.health</h1>
+            <img class="img-fluid" srcset=@randomImageSrc />
+            @for (int j = 0; j < 3; j++)
             {
-                <button> @Model.EnemyPokemon.Moves[i].MoveMove.Name</button>
+                <button> @Model.EnemyPokemon.Moves[j].move.Name</button>
+                <p id=@j.ToString()>@Model.Moves[j].Power</p>
             }
         </div>
     </div>

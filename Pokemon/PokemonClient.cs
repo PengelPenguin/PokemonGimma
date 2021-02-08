@@ -25,11 +25,45 @@ namespace PokemonGame.Pokemon
                 {
                     pokemon = await response.Content.ReadAsStringAsync();
                     var yourpokemon = JsonConvert.DeserializeObject<Pokemon>(pokemon);
+                    
                     return yourpokemon;
                 }
 
             }
             return null;
+        }
+
+        public static async Task InitMoves(Pokemon pokemon) 
+        {
+            using (var client = new HttpClient())
+            {
+                //do something with http client //9.png
+                client.BaseAddress = new Uri("https://pokeapi.co/api/v2/move/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var move = "";
+                for (int i = 0; i < 6; i++)
+                {
+                    int pokemonId = 1;
+
+                    HttpResponseMessage response = await client.GetAsync(i.ToString());
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        move = await response.Content.ReadAsStringAsync();
+                        Move yourObject = JsonConvert.DeserializeObject<Move>(move);
+                        pokemon.Moves[i].Power = yourObject.Power;
+                        pokemon.Moves[i].Name = yourObject.Name;
+                    }
+
+                    pokemonId++;
+                }
+                
+                
+
+            }
         }
 
         public static async Task GetImageForPokemon(Pokemon pokemon)
@@ -90,7 +124,7 @@ namespace PokemonGame.Pokemon
             int randomIdForPokemon;
             Random rand = new Random();
             randomIdForPokemon = rand.Next(1, 400);
-
+            
             using (var client = new HttpClient())
             {
                 //TODO: throw exception?
