@@ -10,6 +10,11 @@ namespace PokemonGame.Pokemon
 {
     public partial class Pokemon
     {
+        public Pokemon()
+        {
+            health = 100;
+        }
+
         public int health { get; set; }
         public Pokemon EnemyPokemon { get; set; }
         public Pokemon RandomPokemon { get; set; }
@@ -118,7 +123,7 @@ namespace PokemonGame.Pokemon
     public partial class Move
     {
         [JsonProperty("move")]
-        public Species MoveMove { get; set; }
+        public Move move { get; set; }
 
         [JsonProperty("version_group_details")]
         public VersionGroupDetail[] VersionGroupDetails { get; set; }

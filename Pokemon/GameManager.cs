@@ -22,8 +22,6 @@ namespace PokemonGame.Pokemon
             int randomIdForPokemon;
             Random rand = new Random();
             randomIdForPokemon = rand.Next(1,pokemon.Moves.Length);
-            trainer.selectedPokemon.health -= 20;
-            pokemon.health -= trainer.selectedPokemon.Moves[MoveId].Damage;
         }
     }
 }
