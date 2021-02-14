@@ -15,6 +15,7 @@ namespace PokemonGame.Pokemon
             health = 100;
         }
 
+        public List<Pokemon> PokeCollection { get; set; }
         public int health { get; set; }
         public Pokemon EnemyPokemon { get; set; }
         public Pokemon RandomPokemon { get; set; }

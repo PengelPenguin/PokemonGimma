@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PokemonGame.Pokemon;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace PokemonGame
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddSignalR().AddAzureSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +53,13 @@ namespace PokemonGame
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=ChooseStarter}/{id?}");
+
+                endpoints.MapHub<Battle>("/battle");
+            });
+
+            app.UseAzureSignalR(routes =>
+            {
+                routes.MapHub<Battle>("/battle");
             });
         }
     }

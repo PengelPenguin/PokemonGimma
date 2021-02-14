@@ -33,10 +33,14 @@ namespace PokemonGame.Controllers
             pokemons.Add(pokemon1);
             pokemons.Add(pokemon2);
             pokemons.Add(pokemon3);
-
+            foreach(Pokemon.Pokemon pokemon in pokemons)
+            {
+                await PokemonClient.InitMoves(pokemon);
+            }
             return View(pokemons);
         }
 
+        
         public async Task<IActionResult> TrainScreen(int id)
         {
             Pokemon.Pokemon pokemon = await PokemonClient.GetPokemonAsync(id);
@@ -69,7 +73,7 @@ namespace PokemonGame.Controllers
             return View(pokemons);
         }
 
-        public IActionResult Privacy()
+        public IActionResult battle()
         {
             return View();
         }

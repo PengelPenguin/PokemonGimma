@@ -3,6 +3,7 @@
     ViewData["Title"] = "Home Page";
     string imageSrc = "https://pokeres.bastionbot.org/images/pokemon/" + Model.Id + ".png";
     string randomImageSrc = "https://pokeres.bastionbot.org/images/pokemon/" + Model.RandomPokemon.Id + ".png";
+    string pokeballimg = "http://pokeapi.co/media/sprites/items/master-ball.png";
 }
 
 <div class="text-center">
@@ -11,7 +12,7 @@
 
     <p>@Model.Name</p>
     <img class="img-fluid" srcset=@imageSrc />
-    @for (int i = 0; i < 3; i++)
+    @for (int i = 1; i < 5; i++)
     {
         <p>Ability: @Model.Moves[i].Name</p>
     }
@@ -21,10 +22,11 @@
         <p>@stat.StatStat.Name : @stat.BaseStat</p>
 
     }
-    @Html.ActionLink("Train " + Model.Name, "TrainScreen", "Home", new { id = Model.Id }, new { @class = "btn btn-primary" });
+    @Html.ActionLink("Train " + Model.Name, "TrainScreen", "Home", new { id = Model.Id }, new { @class = "btn btn-primary" })
 
     <h1>Your Random Pokemon</h1>
     <p>@Model.RandomPokemon.Name</p>
     <img class="img-fluid" srcset=@randomImageSrc />
+    <img class="img-fluid" srcset=@pokeballimg/>
     
 </div>
