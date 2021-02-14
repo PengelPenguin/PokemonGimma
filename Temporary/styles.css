@@ -1,0 +1,168 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Play:wght@700&display=swap');
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+}
+
+.wrapper {
+    background-image: linear-gradient(90deg, #638FE6 50%, #E6806E 50%);
+    color: white;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.containerLeft {
+    display: grid;
+    text-align: center;
+}
+
+.containerRight {
+    display: grid;
+    text-align: center;
+}
+
+.containerLeft > div {
+    margin: 3px;
+    border-radius: 20px;
+    border-style: solid;
+}
+
+.containerRight > div {
+    margin: 3px;
+    border-radius: 20px;
+    border-style: solid;
+}
+
+.grid-item1 {
+    grid-area: 1 / 1 / 10 / 3;
+}
+
+.grid-item2, .grid-item3, .grid-item4, .grid-item5 {
+    display: grid;
+    align-content: center
+}
+
+.grid-item6 {
+    grid-area: 1 / 1 / 10 / 3;
+}
+
+.grid-item7, .grid-item8, .grid-item9, .grid-item10 {
+    display: grid;
+    align-content: center
+}
+
+.wrapperStarter {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: auto auto auto;
+    background-image: url(bgImage);
+}
+
+    .wrapperStarter > div {
+        margin: 20px;
+        border-radius: 20px;
+        box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+        font-size: 5vh;
+    }
+
+.cardImg {
+    display: block;
+    margin: auto;
+}
+
+.charmander {
+    background-color: #d7a37b;
+}
+
+.squirtle {
+    background-color: #67a0b1;
+}
+
+.bulbasaur {
+    background-color: #99caac;
+}
+
+.stats > table {
+    font-family: 'Play', sans-serif;
+    width: 80%;
+    margin: auto;
+    text-shadow: 4px 4px 8px black;
+}
+
+.stat {
+    float: left;
+    color: black
+}
+
+.digit {
+    float: right;
+    color: #FFF2C7;
+}
+
+.backgroundImage {
+    background-color: white;
+    margin: 20px;
+    border-radius: 20px;
+    border: 2px solid black;
+}
+
+.charmander:hover {
+    animation: Charmander;
+    animation-duration: 0.4s;
+    animation-fill-mode: forwards;
+}
+
+.squirtle:hover {
+    animation: Squirtle;
+    animation-duration: 0.4s;
+    animation-fill-mode: forwards;
+}
+
+.bulbasaur:hover {
+    animation: Bulbasaur;
+    animation-duration: 0.4s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes Charmander {
+    0% {
+        transform: scale(1, 1);
+        background-color: #684e3b;
+        ;
+    }
+
+    100% {
+        transform: scale(1.02, 1.02);
+        background-color: #d7a37b;
+    }
+}
+
+@keyframes Squirtle {
+    0% {
+        transform: scale(1, 1);
+        background-color: #2b434b;
+    }
+
+    100% {
+        transform: scale(1.02, 1.02);
+        background-color: #67a0b1;
+    }
+}
+
+@keyframes Bulbasaur {
+    0% {
+        transform: scale(1, 1);
+        background-color: #3f5347;
+    }
+
+    100% {
+        transform: scale(1.02, 1.02);
+        background-color: #99caac;
+    }
+}
