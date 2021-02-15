@@ -1,19 +1,25 @@
 ﻿@model List<PokemonGame.Pokemon.Pokemon>
 @{
     ViewData["Title"] = "Home Page";
+    string image = "https://pokeres.bastionbot.org/images/pokemon/";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Choose starter pokemon</h1>
+    
+    <h1 class="display-4">Choose a starter pokemon</h1>
     <div class="row">
-
+        
         @foreach (PokemonGame.Pokemon.Pokemon pokemon in Model)
         {
-        <div class="col-lg-4" style="background-color:orangered">
+        <div class="col-lg-4">
             <p>@pokemon.Name ID: @pokemon.Id</p>
+            @{ 
+                string srcset = image + pokemon.Id.ToString() + ".png";
+            }
+            <img class="img-fluid" srcset="@srcset" />
             @for (int i = 0; i < 3; i++)
             {
-                <button> @pokemon.Moves[i].MoveMove.Name</button>
+                <button> @pokemon.Moves[i].move.Name</button>
             }
 
             @foreach (var stat in pokemon.Stats)

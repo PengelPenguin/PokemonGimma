@@ -41,7 +41,7 @@ namespace PokemonGame.Controllers
         {
             Pokemon.Pokemon pokemon = await PokemonClient.GetPokemonAsync(id);
             await PokemonClient.FindEnemyPokemon(pokemon);
-
+            await PokemonClient.InitMoves(pokemon);
             return View(pokemon);
         }
 
@@ -50,6 +50,7 @@ namespace PokemonGame.Controllers
             Pokemon.Pokemon pokemon = await PokemonClient.GetPokemonAsync(id);
 
             await PokemonClient.GetRandomPokemonAsync(pokemon);
+            await PokemonClient.InitMoves(pokemon);
             return View(pokemon);
         }
 
