@@ -1,0 +1,35 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Play:wght@700&display=swap');
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+}
+
+.wrapperStarter {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: auto auto auto;
+    background-image: url(bgImage);
+}
+
+.wrapperStarter > div {
+    margin: 20px;
+    border-radius: 20px;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+    font-size: 5vh;
+}
+
+.charmander {
+    background-color: #d7a37b;
+}
+
+.squirtle {
+    background-color: #67a0b1;
+}
+
+.bulbasaur {
+    background-color: #99caac;
+}
