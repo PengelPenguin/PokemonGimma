@@ -6,13 +6,27 @@
 }
 
 body {
+    height: 100vh;
+    background-size: cover;
+    background-image: url(/Image/backgroundStandard.jpg); 
+}
+
+header{
+    background-color: transparent;
+}
+
+footer{
+    background-color: transparent;
+}
+
+.container{
+    background-color: transparent;
 }
 
 .wrapperStarter {
     display: grid;
-    height: 100vh;
     grid-template-columns: auto auto auto;
-    background-image: url(bgImage);
+    
 }
 
 .wrapperStarter > div {
@@ -32,4 +46,90 @@ body {
 
 .bulbasaur {
     background-color: #99caac;
+}
+
+.statTable {
+    font-family: 'Play', sans-serif;
+    width: 80%;
+    margin: auto;
+    text-shadow: 4px 4px 8px black;
+}
+
+.stats {
+    float: left;
+    color: black;
+    text-transform: uppercase;
+}
+
+.stat {
+    float: right;
+    color: #FFF2C7;
+}
+
+.charmander:hover {
+    animation: Charmander;
+    animation-duration: 0.4s;
+    animation-fill-mode: forwards;
+}
+
+.squirtle:hover {
+    animation: Squirtle;
+    animation-duration: 0.4s;
+    animation-fill-mode: forwards;
+}
+
+.bulbasaur:hover {
+    animation: Bulbasaur;
+    animation-duration: 0.4s;
+    animation-fill-mode: forwards;
+}
+
+.blockLink {
+    display: block;
+    text-decoration: none;
+    position: relative;
+    top: -95%;
+    height: 100%;
+    color: transparent;
+}
+
+.img-fluid{
+    display: block;
+    margin: auto;
+}
+
+@keyframes Charmander {
+    0% {
+        transform: scale(1, 1);
+        background-color: #684e3b;
+    }
+
+    100% {
+        transform: scale(1.02, 1.02);
+        background-color: #d7a37b;
+    }
+}
+
+@keyframes Squirtle {
+    0% {
+        transform: scale(1, 1);
+        background-color: #2b434b;
+    }
+
+    100% {
+        transform: scale(1.02, 1.02);
+        background-color: #67a0b1;
+    }
+}
+
+@keyframes Bulbasaur {
+    0% {
+        transform: scale(1, 1);
+        background-color: #3f5347;
+    }
+
+    100% {
+        transform: scale(1.02, 1.02);
+        background-color: #99caac;
+    }
 }
