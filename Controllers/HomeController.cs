@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR;
 
 namespace PokemonGame.Controllers
 {
@@ -17,11 +18,22 @@ namespace PokemonGame.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         PokemonClient pokemonClient;
-        public HomeController(ILogger<HomeController> logger)
+        private IHubContext<Battle> _hubContext;
+        public HomeController(IHubContext<Battle> hubContext)
         {
             pokemonClient = new PokemonClient();
-            _logger = logger;
+            _hubContext = hubContext;
         }
+
+        [HttpPost("/GameScreen")]
+        public async Task<IActionResult> Post([FromForm] string message)
+        {
+            await _hubContext.Clients.All.SendAsync("ReceiveMessage", message);
+            return View();
+        }
+
+
+
 
         public async Task<IActionResult> ChooseStarter()
         {
@@ -49,6 +61,16 @@ namespace PokemonGame.Controllers
             return View(pokemon);
         }
 
+        public async Task<IActionResult> Battle(int id)
+        {
+            Pokemon.Pokemon pokemon = await PokemonClient.GetPokemonAsync(id);
+            await PokemonClient.FindEnemyPokemon(pokemon);
+            await PokemonClient.InitMoves(pokemon);
+            
+            return View(pokemon);
+        }
+
+        
         public async Task<IActionResult> GameScreen(int id)
         {
             Pokemon.Pokemon pokemon = await PokemonClient.GetPokemonAsync(id);
@@ -73,10 +95,6 @@ namespace PokemonGame.Controllers
             return View(pokemons);
         }
 
-        public IActionResult battle()
-        {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

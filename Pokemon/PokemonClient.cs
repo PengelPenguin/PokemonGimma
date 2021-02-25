@@ -175,6 +175,7 @@ namespace PokemonGame.Pokemon
                 {
                     pokemon = await response.Content.ReadAsStringAsync();
                     var yourObject = JsonConvert.DeserializeObject<Pokemon>(pokemon);
+
                     Trainer.RandomPokemon = yourObject;
                 }
 

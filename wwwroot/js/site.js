@@ -2,74 +2,89 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+"use strict";
 
-var healthpokemon1 = document.getElementById("healthPlayer1").textContent;
-var healthpokemon2 = document.getElementById("healthPlayer2").textContent;
+var connection = new signalR.HubConnectionBuilder().withUrl("/GameScreen").build();
+//===============================================================================================
+connection.on("ReceiveMove", function (message,connectionId) {
+    var a = document.createElement('a');
+    var linkText = document.createTextNode(message);
+    a.appendChild(linkText);
+    a.title = message + connectionId;
+    a.href = window.location.href + "/" + connectionId;
+   
+    var div = document.createElement("div");
+    div.innerHTML = a + "<hr/>";
+
+    document.getElementById("messages").appendChild(a);
+    //document.body.appendChild(a);
+});
+
+connection.on("ReceiveMessage", function (message) {
+    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    var div = document.createElement("div");
+    div.innerHTML = msg + "<hr/>";
+    document.getElementById("messages").appendChild(div);
+});
 
 
-function showhealth() {
-    document.getElementById("healthPlayer1").textContent = healthpokemon1;
-    document.getElementById("healthPlayer2").textContent = healthpokemon2;
-}
+connection.on("UserConnected", function(connectionId) {
+    var groupElement = document.getElementById("group");
+    var option = document.createElement("option");
+    option.text = connectionId;
+    option.value = connectionId;
+    groupElement.add(option);
+});
 
-function CalculateDamageStep(moveIndex) {
-    var attackplayer1 = document.getElementById(moveIndex).textContent;
-    healthpokemon2 -= attackplayer1;
-    SelectOpponentMove();
-    showhealth();
-    HasPlayerWon();
+connection.on("UserDisconnected", function(connectionId) {
+    var groupElement = document.getElementById("group");
+    for(var i = 0; i < groupElement.length; i++) {
+        if (groupElement.options[i].value == connectionId) {
+            groupElement.remove(i);
+        }
+    }
+});
 
-}
+connection.start().catch(function(err) {
+    return console.error(err.toString());
+});
 
-function SelectOpponentMove() {
-    if (healthpokemon1 > 0) {
-        var attackplayer2 = document.getElementById(Math.floor(Math.random() * 4) + 1).textContent;
-        healthpokemon1 -= attackplayer2;
+document.getElementById("sendButton").addEventListener("click", function(event) {
+    var message = document.getElementById("message").value;
+    var groupElement = document.getElementById("group");
+    var groupValue = groupElement.options[groupElement.selectedIndex].value;
+    
+    if (groupValue === "All" || groupValue === "Myself") {
+        var method = groupValue === "All" ? "SendMessageToAll" : "SendMessageToCaller";
+        connection.invoke(method, message).catch(function (err) {
+            return console.error(err.toString());
+        });
+    } else if (groupValue === "PrivateGroup") {
+        connection.invoke("SendMessageToGroup", "PrivateGroup", message).catch(function (err) {
+            return console.error(err.toString());
+        });
+    } else {
+        connection.invoke("SendMessageToUser", groupValue, message).catch(function (err) {
+            return console.error(err.toString());
+        });
     }
     
-}
+    event.preventDefault();
+});
 
-function HasPlayerWon() {
-    
-    if (healthpokemon2 <= 0) {
-        var name = document.getElementById("namePlayer1").textContent;
-        alert(name + " has won!");
-        ReturnToGameScreen();
-    }
-
-    if (healthpokemon1 <= 0) {
-        var name = document.getElementById("namePlayer2").textContent;
-        alert(name + " has won!");
-        ReturnToGameScreen();
-    }
-}
-
-function ReturnToGameScreen() {
-    window.history.back();
-}
-
-function bindConnectionMessage(connection) {
-    var messageCallback = function (name, message) {
-        if (!message) return;
-        // deal with the message
-        alert("message received:" + message);
-    };
-    // Create a function that the hub can call to broadcast messages.
-    connection.on('broadcastMessage', messageCallback);
-    connection.on('echo', messageCallback);
-}
-
-var connection = new signalR.HubConnectionBuilder()
-    .withUrl('/battle')
-    .build();
-
-bindConnectionMessage(connection);
-connection.start()
-    .then(function () {
-        onConnected(connection);
-    })
-    .catch(function (error) {
-        console.error(error.message);
+document.getElementById("joinGroup").addEventListener("click", function(event) {
+    connection.invoke("JoinGroup", "PrivateGroup").catch(function (err) {
+        return console.error(err.toString());
     });
+    event.preventDefault();
+});
 
+document.getElementById("createGroup").addEventListener("click", function (event) {
+    var name = document.getElementById("roomName").value;
+    connection.invoke("SendMove",name,name).catch(function (err) {
+        return console.error(err.toString());
+    });
+    event.preventDefault();
+});
 
+//===============================================================================================

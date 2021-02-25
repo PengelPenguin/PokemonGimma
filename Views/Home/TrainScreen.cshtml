@@ -21,7 +21,7 @@
         </div>
         <div class="col-lg-6">
             <p id="namePlayer2">@Model.EnemyPokemon.Name</p>
-            <h1 id="healthPlayer2">@Model.EnemyPokemon.health</h1>
+            <h1 id="healthPlayer2">@Model.EnemyPokemon.health.ToString()</h1>
             <img class="img-fluid" srcset=@randomImageSrc />
             @for (int j = 1; j < 5; j++)
             {

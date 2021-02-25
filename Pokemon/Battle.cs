@@ -8,19 +8,48 @@ namespace PokemonGame.Pokemon
 {
     public class Battle : Hub
     {
-        public void BroadcastMessage(string name, string message)
+        public Task SendMessageToAll(string message)
         {
-            Clients.All.SendAsync("broadcastMessage", name, message);
+            return Clients.All.SendAsync("ReceiveMessage", message);
         }
 
-        public void Echo(string name, string message)
+        public Task SendMessageToCaller(string message)
         {
-            Clients.Client(Context.ConnectionId).SendAsync("echo", name, message + " (echo from server)");
+            return Clients.Caller.SendAsync("ReceiveMessage", message);
         }
 
-        public async Task SendMessage(string user, string message)
+        public Task SendMessageToUser(string connectionId, string message)
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
+            return Clients.Client(connectionId).SendAsync("ReceiveMessage", message);
         }
+
+        public Task JoinGroup(string group)
+        {
+            return Groups.AddToGroupAsync(Context.ConnectionId, group);
+        }
+
+        public Task SendMove(string user, string message)
+        {
+            return Clients.All.SendAsync("ReceiveMove", user, Context.ConnectionId);
+        }
+
+        public Task SendMessageToGroup(string group, string message)
+        {
+            return Clients.Group(group).SendAsync("ReceiveMessage", message);
+        }
+
+        public override async Task OnConnectedAsync()
+        {
+            await Clients.All.SendAsync("UserConnected", Context.ConnectionId);
+            await base.OnConnectedAsync();
+        }
+
+        public override async Task OnDisconnectedAsync(Exception ex)
+        {
+            await Clients.All.SendAsync("UserDisconnected", Context.ConnectionId);
+            await base.OnDisconnectedAsync(ex);
+        }
+
+        
     }
 }

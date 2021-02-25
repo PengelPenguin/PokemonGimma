@@ -23,10 +23,30 @@
 
     }
     @Html.ActionLink("Train " + Model.Name, "TrainScreen", "Home", new { id = Model.Id }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Battle someone! ", "Battle", "Home", new { id = Model.Id }, new { @class = "btn btn-primary" })
+
+    <div>
+        <input type="button" id="joinGroup" value="Join Private Group" />
+
+        <input type="text" id="roomName" placeholder="Enter room name.." />
+        <input type="button" id="createGroup" value="Create battle room" />
+    </div>
+
+<textarea name="message" id="message"></textarea>
+    <select id="group">
+        <option value="All">Everyone</option>
+        <option value="Myself">Myself</option>
+        <option value="PrivateGroup">Private Group</option>
+    </select>
+    <input type="button" id="sendButton" value="Send Message" />
+
+    <div id="messages"></div>
 
     <h1>Your Random Pokemon</h1>
     <p>@Model.RandomPokemon.Name</p>
     <img class="img-fluid" srcset=@randomImageSrc />
-    <img class="img-fluid" srcset=@pokeballimg/>
-    
+    <img class="img-fluid" srcset=@pokeballimg />
+
 </div>
+
+<script src="~/js/signalr/dist/browser/microsoft/signalr.js"></script>
